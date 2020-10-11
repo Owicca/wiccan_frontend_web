@@ -1,0 +1,15 @@
+#side-nav {
+	background: #808080;
+}
+
+nav > ul {
+	padding: 0;
+}
+
+ul {
+	list-style: none;
+}
+
+.active {
+	border: 1px solid red;
+}
