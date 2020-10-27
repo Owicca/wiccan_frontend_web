@@ -14,7 +14,10 @@ import AnalysisItemPage from './main/analysis/analysis_item_page.js';
 import AnalysisListPage from './main/analysis/analysis_list_page.js';
 import Nav from './header/nav.js';
 
+import SwaggerUIWrapper from './utils/swagger_wraper.js'
+
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'swagger-ui-react/swagger-ui.css';
 import './app.css';
 
 
@@ -66,6 +69,12 @@ class App extends React.Component {
         },
       ]
     },
+    {
+      name: 'API Documentation',
+      href: '/api/docs/',
+      path: '/api/docs/',
+      component: SwaggerUIWrapper,
+    }
   ];
 
 	render() {

@@ -1,0 +1,177 @@
+openapi: 3.0.0
+info:
+  title: Wiccan
+  description: Automated dynamic malware analysis platform
+  termsOfService: http://www.gnu.org/licenses/gpl-3.0.txt
+  contact:
+    name: Cristian Dinu
+    url: https://dinudev.com
+    email: dinudev@yahoo.com
+  version: 0.1.0
+servers:
+  - url: "/api/v1"
+    description: "Development url"
+paths:
+  /hosts/:
+    summary: Returns a list of hosts
+    get:
+      tags:
+        - HostList
+      summary: Return a filtered list of hosts
+      operationId: 'hostlistget'
+      deprecated: false
+      parameters:
+        - name: "limit"
+          in: "query"
+          description: "Page size"
+          required: false
+          schema:
+            type: integer
+        - name: "offset"
+          in: "query"
+          description: "where to start from"
+          required: false
+          schema:
+            type: integer
+        - name: "fields"
+          in: "query"
+          description: "Extra fields to return"
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: '#/components/schemas/HostList'
+        default:
+          $ref: "#/components/responses/NotFound"
+    post:
+      tags:
+        - HostList
+      summary: Create one host
+      operationId: 'hostlistpost'
+      deprecated: false
+      responses:
+        default:
+          $ref: "#/components/responses/NotFound"
+  /hosts/{id}:
+    summary: Singular host endpoint
+    get:
+      tags:
+        - Host
+      summary: Return a filtered list of hosts
+      operationId: 'hostitemget'
+      deprecated: false
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "Host id"
+          required: true
+          schema:
+            type: integer
+        - name: "fields"
+          in: "query"
+          description: "Extra fields to return"
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: '#/components/schemas/Host'
+        default:
+          $ref: "#/components/responses/NotFound"
+    put:
+      tags:
+        - Host
+      summary: Update one host
+      operationId: 'hostitemput'
+      deprecated: false
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "Host id"
+          required: true
+          schema:
+            type: integer
+      responses:
+        default:
+          $ref: "#/components/responses/NotFound"
+    delete:
+      tags:
+        - Host
+      summary: Delete one host
+      operationId: 'hostitemdelete'
+      deprecated: false
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "Host id"
+          required: true
+          schema:
+            type: integer
+      responses:
+        default:
+          $ref: "#/components/responses/NotFound"
+components:
+  schemas:
+    HostList:
+      type: array
+      items:
+        $ref: '#/components/schemas/Host'
+    Host:
+      type: object
+      properties:
+        created_by:
+          type: integer
+        created_at:
+          type: integer
+        modified_by:
+          type: integer
+          nullable: true
+        modified_at:
+          type: integer
+          nullable: true
+        deleted_by:
+          type: integer
+          nullable: true
+        deleted_at:
+          type: integer
+          nullable: true
+        id:
+          type: integer
+          minimum: 0
+        name:
+          type: string
+        ipv4:
+          type: string
+        ipv6:
+          type: string
+        port:
+          type: integer
+          minimum: 1
+        state:
+          type: string
+          format: int8
+          minimum: 0
+  responses:
+    NotFound:
+      description: "Resource not found"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              data:
+                type: object
+                nullable: true
+              message:
+                type: string
+                nullable: true
+          examples:
+            notfound:
+              summary: example of a NotFound resource
+              value:
+                success: false
+                data: null
+                message: Resource not found!
